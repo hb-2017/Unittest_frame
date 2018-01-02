@@ -30,7 +30,7 @@ class Skin01_login(unittest.TestCase):
     def test_user_login(self):
         #从配置文件读取登录的账号密码
         config = configparser.ConfigParser()
-        userinfo_config_xpath = os.path.dirname(os.path.abspath('.'))+'config/common_data.ini'
+        userinfo_config_xpath = os.path.dirname(os.path.abspath('.'))+'/config/common_data.ini'
         config.read(userinfo_config_xpath)
         username = config.get('userinfo','username')
         password = config.get('userinfo','password')

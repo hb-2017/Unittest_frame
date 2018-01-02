@@ -25,13 +25,14 @@ class Drivrser_base():
         #实例化配置文件类
         config = configparser.ConfigParser()
         #获取配置文件路劲,并读取
-        driver_config_xpath = os.path.dirname(os.path.abspath('.')+'config/driver_config.ini')
-        url_manage_xpath = os.path.dirname(os.path.abspath('.')+'config/url_manage.ini')
+        driver_config_xpath = os.path.dirname(os.path.abspath('.'))+'/config/driver_config.ini'
+        url_manage_xpath = os.path.dirname(os.path.abspath('.'))+'/config/url_manage.ini'
         config.read(driver_config_xpath)
-        config.read(url_manage_xpath)
         #读取config的驱动,url信息
         browser = config.get('browserType','browserName')
         logger.info("You had select %s browser." % browser)
+
+        config.read(url_manage_xpath)
         url = config.get("testServer", "URL")
         logger.info("The test server url is: %s" % url)
         # 驱动启动，写日志
