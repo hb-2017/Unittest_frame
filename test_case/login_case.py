@@ -86,7 +86,36 @@ class Skin01_login(unittest.TestCase):
 
 
 
+    # 读取淘宝登录的账号密码
+    def get_taobao_info(self):
+        config = configparser.ConfigParser()
+        taobao_xpath = os.path.dirname(os.path.abspath('.'))+'/config/common_data.ini'
+        config.read(taobao_xpath)
+        username = config.get('taobaoinfo','username')
+        password = config.get('taobaoinfo', 'password')
+        logger.info('get userinfo from config ')
+        return username,password
+
     # 淘宝登录
+    def test_taobao_login(self):
+        tb_login = taobao_login(self.browser)
+        self.browser.find_element_by_id('taobaoLogin')
+        tb_login.browser_wait(2)
+        #进入淘宝登录界面
+        if self.page_title('应用授权'):
+            username, password = self.get_taobao_info()
+            tb_login.taobaologin_statu()
+            tb_login.input_taobaoinfo(username, password)
+            if self.page_title('易打单 | 批量打印'):
+                self.assertTrue('Ture')
+            else:
+                self.assertTrue(False)
+        else:
+            self.assertTrue(False)
+
+
+
+
 
 
 

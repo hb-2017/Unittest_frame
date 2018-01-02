@@ -74,8 +74,14 @@ class taobao_login(Basepage):
         self.clear(self.TPL_password_1)
         self.input(self.TPL_username_1, username)
         self.input(self.TPL_password_1, password)
+        self.click(self.J_SubmitStatic)
+        self.browser_wait(3)
 
     # 判断是否登录了淘宝
     def taobaologin_statu(self):
         tb_statu = self.element_is_dispalynd(self.taobaologin_statu_)
-        return tb_statu
+        if tb_statu:
+            pass
+        else:
+            self.click(self.J_Quick2Static)
+
