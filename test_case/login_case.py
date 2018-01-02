@@ -62,7 +62,7 @@ class Skin01_login(unittest.TestCase):
         user_login.sleep(2)
         try:
             if self.page_title('易打单 | 批量打印'):
-                self.assertTrue('Ture')
+                self.assertTrue(True)
             elif self.page_title('易打单 登录'):
                 error_tip = user_login.get_error_tips()
                 if error_tip == '请输入图片验证码':
@@ -72,7 +72,7 @@ class Skin01_login(unittest.TestCase):
                     self.browser.find_element_by_id('submit').click()
                     user_login.sleep(2)
                     if self.page_title('易打单 | 批量打印'):
-                        self.assertTrue('Ture')
+                        self.assertTrue(True)
                     else:
                         self.assertTrue(False)
                 else:
@@ -83,8 +83,6 @@ class Skin01_login(unittest.TestCase):
         except BaseException as e:
             logger.error('登录错误：%s'%e)
             self.assertTrue(False)
-
-
 
     # 读取淘宝登录的账号密码
     def get_taobao_info(self):
@@ -99,7 +97,7 @@ class Skin01_login(unittest.TestCase):
     # 淘宝登录
     def test_taobao_login(self):
         tb_login = taobao_login(self.browser)
-        self.browser.find_element_by_id('taobaoLogin')
+        self.browser.find_element_by_id('taobaoLogin').click()
         tb_login.browser_wait(2)
         #进入淘宝登录界面
         if self.page_title('应用授权'):
@@ -107,7 +105,7 @@ class Skin01_login(unittest.TestCase):
             tb_login.taobaologin_statu()
             tb_login.input_taobaoinfo(username, password)
             if self.page_title('易打单 | 批量打印'):
-                self.assertTrue('Ture')
+                self.assertTrue(True)
             else:
                 self.assertTrue(False)
         else:
