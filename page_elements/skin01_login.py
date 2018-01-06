@@ -69,7 +69,7 @@ class taobao_login(Basepage):
 
     # 输入账号密码
     def input_taobaoinfo(self, username, password):
-        self.browser.switch_to.frame("J_loginIframe")
+        # self.browser.switch_to.frame("J_loginIframe")
         self.clear(self.TPL_username_1)
         self.clear(self.TPL_password_1)
         self.input(self.TPL_username_1, username)
@@ -79,7 +79,8 @@ class taobao_login(Basepage):
 
     # 判断是否登录了淘宝
     def taobaologin_statu(self):
-        tb_statu = self.element_is_dispalynd(self.taobaologin_statu_)
+        self.browser.switch_to.frame("J_loginIframe")
+        tb_statu = self.element_is_dispalynd(self.J_SubmitStatic)
         if tb_statu:
             pass
         else:

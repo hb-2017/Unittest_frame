@@ -33,7 +33,7 @@ class Skin01_login(unittest.TestCase):
     def get_user_info(self):
         config = configparser.ConfigParser()
         userinfo_config_xpath = os.path.dirname(os.path.abspath('.')) + '/config/common_data.ini'
-        config.read(userinfo_config_xpath)
+        config.read(userinfo_config_xpath,encoding="utf-8-sig")
         username = config.get('userinfo', 'username')
         password = config.get('userinfo', 'password')
         logger.info('get userinfo from config ')
@@ -54,6 +54,7 @@ class Skin01_login(unittest.TestCase):
 
     #账号密码登录
     def test_user_login(self):
+        print('易打单账号登录开始')
         username,password = self.get_user_info()
         #开始输入账号密码
         user_login = skin01_user_login(self.browser)
@@ -88,7 +89,7 @@ class Skin01_login(unittest.TestCase):
     def get_taobao_info(self):
         config = configparser.ConfigParser()
         taobao_xpath = os.path.dirname(os.path.abspath('.'))+'/config/common_data.ini'
-        config.read(taobao_xpath)
+        config.read(taobao_xpath,"utf-8-sig")
         username = config.get('taobaoinfo','username')
         password = config.get('taobaoinfo', 'password')
         logger.info('get userinfo from config ')
@@ -96,6 +97,7 @@ class Skin01_login(unittest.TestCase):
 
     # 淘宝登录
     def test_taobao_login(self):
+        print('淘宝登录开始')
         tb_login = taobao_login(self.browser)
         self.browser.find_element_by_id('taobaoLogin').click()
         tb_login.browser_wait(2)
