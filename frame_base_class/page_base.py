@@ -198,3 +198,10 @@ class Basepage():
 
 
 
+    def get_elemeent_text(self,selector):
+        el = self.find_element(selector)
+        elemeent_text = el.text
+        logger.info('get element text is %s'%elemeent_text)
+        return elemeent_text
+
+
