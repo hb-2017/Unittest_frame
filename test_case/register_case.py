@@ -83,13 +83,16 @@ class register(unittest.TestCase):
                 if self.page_title('易打单 | 批量打印'):
                     logger.info('test_register is pass')
                 else:
+                    self.register.get_windows_img()
                     page_title = self.page_title('易打单 | 批量打印')
                     logger.info('test_register is fail, page_title is %s'%page_title)
                     self.assertTrue(False,'test_register is fail, page_title is %s'%page_title)
             else:
+                self.register.get_windows_img()
                 logger.info('test_register is fail, page_title is %s' % tip)
                 self.assertTrue(False, 'Set_password is fail, error is %s' % tip)
         else:
+            self.register.get_windows_img()
             logger.info('test_register is fail, page_title is %s' % tip_statu)
             self.assertTrue(False, 'Verifying_mobile is fail, error is %s' % tip_statu)
 

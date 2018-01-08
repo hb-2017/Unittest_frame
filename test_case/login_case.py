@@ -19,15 +19,15 @@ Assertion_ = Assertion()
 
 class Skin01_login(unittest.TestCase):
 
-    def setUp(self):
-        # 测试固件的setUp()的代码，主要是测试的前提准备工作
-        Drivrser = Drivrser_base(self)
-        self.browser = Drivrser.open_browser(self)
-
-    def tearDown(self):
-
-        # 测试固件的tearDown()的代码，这里基本上都是关闭浏览器
-        self.browser.quit()
+    # def setUp(self):
+    #     # 测试固件的setUp()的代码，主要是测试的前提准备工作
+    #     Drivrser = Drivrser_base(self)
+    #     self.browser = Drivrser.open_browser(self)
+    #
+    # def tearDown(self):
+    #
+    #     # 测试固件的tearDown()的代码，这里基本上都是关闭浏览器
+    #     self.browser.quit()
 
     # 从配置文件读取登录的账号密码
     def get_user_info(self):
@@ -40,8 +40,8 @@ class Skin01_login(unittest.TestCase):
         return username,password
 
     # 获取页面标题
-    def page_title(self,title):
-        user_login = skin01_user_login(self.browser)
+    def page_title(self,title,browser):
+        user_login = skin01_user_login(browser)
         page_title = user_login.get_page_title()
         if page_title==title:
             logger.info(' 预期页面标题：%s 与实际标题%s相符' %(title,page_title ))
@@ -53,13 +53,13 @@ class Skin01_login(unittest.TestCase):
 
 
     #账号密码登录
-    def test_user_login(self):
+    def user_login(self,browser):
         print('易打单账号登录开始')
         username,password = self.get_user_info()
         #开始输入账号密码
-        user_login = skin01_user_login(self.browser)
+        user_login = skin01_user_login(browser)
         user_login.input_userinfo(username,password)
-        self.browser.find_element_by_id('submit').click()
+        browser.find_element_by_id('submit').click()
         user_login.sleep(2)
         try:
             if self.page_title('易打单 | 批量打印'):
@@ -70,7 +70,7 @@ class Skin01_login(unittest.TestCase):
                     # 开始输入验证码
                     user_login.input_code()
                     logger.info('error tips input code')
-                    self.browser.find_element_by_id('submit').click()
+                    browser.find_element_by_id('submit').click()
                     user_login.sleep(2)
                     if self.page_title('易打单 | 批量打印'):
                         self.assertTrue(True)
@@ -96,10 +96,10 @@ class Skin01_login(unittest.TestCase):
         return username,password
 
     # 淘宝登录
-    def test_taobao_login(self):
+    def taobao_login(self,browser):
         print('淘宝登录开始')
-        tb_login = taobao_login(self.browser)
-        self.browser.find_element_by_id('taobaoLogin').click()
+        tb_login = taobao_login(browser)
+        browser.find_element_by_id('taobaoLogin').click()
         tb_login.browser_wait(2)
         #进入淘宝登录界面
         if self.page_title('应用授权'):

@@ -147,6 +147,16 @@ class Basepage():
         logger.info("Current page title is %s" % self.browser.title)
         return self.browser.title
 
+    # 判断网页标题和预期是否相符
+    def is_page_title(self,title):
+        page_title = self.browser.title
+        if page_title==title:
+            logger.info(' 预期页面标题：%s 与实际标题%s相符' %(title,page_title ))
+            return True
+        else:
+            logger.error(' 预期页面标题：%s 与实际标题%s不相符' % (title, page_title))
+            return False
+
 
     #判断元素是否存在
     def element_is_dispalynd(self,selector):
