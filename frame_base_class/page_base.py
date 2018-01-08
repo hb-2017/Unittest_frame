@@ -189,7 +189,7 @@ class Basepage():
                 element_dispaly = self.browser.find_element_by_tag_name(selector_value).is_displayed()
                 return element_dispaly
             elif selector_by == "x" or selector_by == 'xpath':
-                element_dispaly = self.browser.find_element_by_tag_xpath(selector_value).is_displayed()
+                element_dispaly = self.browser.find_element_by_xpath(selector_value).is_displayed()
                 return element_dispaly
             elif selector_by == "s" or selector_by == 'selector_selector':
                 element_dispaly = self.browser.find_element_by_tag_selector_selector(selector_value).is_displayed()

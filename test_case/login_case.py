@@ -40,7 +40,7 @@ class Skin01_login(unittest.TestCase):
         return username,password
 
     # 获取页面标题
-    def page_title(self,title,browser):
+    def page_title(self,title,browser=None):
         user_login = skin01_user_login(browser)
         page_title = user_login.get_page_title()
         if page_title==title:
@@ -62,9 +62,9 @@ class Skin01_login(unittest.TestCase):
         browser.find_element_by_id('submit').click()
         user_login.sleep(2)
         try:
-            if self.page_title('易打单 | 批量打印'):
+            if self.page_title('易打单 | 批量打印',browser):
                 self.assertTrue(True)
-            elif self.page_title('易打单 登录'):
+            elif self.page_title('易打单 登录',browser):
                 error_tip = user_login.get_error_tips()
                 if error_tip == '请输入图片验证码':
                     # 开始输入验证码
@@ -72,7 +72,7 @@ class Skin01_login(unittest.TestCase):
                     logger.info('error tips input code')
                     browser.find_element_by_id('submit').click()
                     user_login.sleep(2)
-                    if self.page_title('易打单 | 批量打印'):
+                    if self.page_title('易打单 | 批量打印',browser):
                         self.assertTrue(True)
                     else:
                         self.assertTrue(False)
@@ -95,6 +95,7 @@ class Skin01_login(unittest.TestCase):
         logger.info('get userinfo from config ')
         return username,password
 
+
     # 淘宝登录
     def taobao_login(self,browser):
         print('淘宝登录开始')
@@ -102,11 +103,11 @@ class Skin01_login(unittest.TestCase):
         browser.find_element_by_id('taobaoLogin').click()
         tb_login.browser_wait(2)
         #进入淘宝登录界面
-        if self.page_title('应用授权'):
+        if self.page_title('应用授权',browser):
             username, password = self.get_taobao_info()
             tb_login.taobaologin_statu()
             tb_login.input_taobaoinfo(username, password)
-            if self.page_title('易打单 | 批量打印'):
+            if self.page_title('易打单 | 批量打印',browser):
                 self.assertTrue(True)
             else:
                 self.assertTrue(False)
