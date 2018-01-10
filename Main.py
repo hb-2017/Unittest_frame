@@ -4,6 +4,7 @@ from test_case.login_case import Skin01_login
 from test_case.new_order_case import new_order
 
 
+
 class MyTestCase(unittest.TestCase):
 
     login = Skin01_login()
