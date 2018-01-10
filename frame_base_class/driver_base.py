@@ -11,7 +11,6 @@ from frame_base_class.logger_base import Logger
 logger = Logger(logger = "Drivrser_base").getlog()
 
 class Drivrser_base():
-
     # 获取绝对路劲并且把绝对路劲的最后一层目录去除
     dir = os.path.dirname(os.path.abspath('.'))
     # 获取浏览器驱动的路径

@@ -199,8 +199,6 @@ class Basepage():
             return element_dispaly
 
 
-
-
     @staticmethod
     def sleep(seconds):
         time.sleep(seconds)

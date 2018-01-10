@@ -9,23 +9,25 @@ class MyTestCase(unittest.TestCase):
     login = Skin01_login()
     new_or = new_order()
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         browser = Drivrser_base(self)
         self.browser = browser.open_browser(self)
 
-    def tearDown(self):
+    @classmethod
+    def tearDownClass(self):
         self.browser.quit()
 
 
     def test_login_case(self):
         browser = self.browser
         self.login.user_login(browser)
+
+    def test_new_order(self):
+        browser = self.browser
         self.new_or.new_order_statr(browser)
 
 
 
 
-
-if __name__ == '__main__':
-    my = MyTestCase()
 

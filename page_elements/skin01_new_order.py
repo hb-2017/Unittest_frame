@@ -57,6 +57,7 @@ class skin01_new_order(Basepage):
                 self.click(self.Save_tip_button)
                 return True
             else:
+                # if self.element_is_dispalynd(self.Save_tip_button)
                 # self.click(self.Save_tip_button)
                 return False
         else:
