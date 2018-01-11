@@ -14,6 +14,7 @@ class MyTestCase(unittest.TestCase):
     def setUpClass(self):
         browser = Drivrser_base(self)
         self.browser = browser.open_browser(self)
+        # self.browser = browser.open_browser()
 
     @classmethod
     def tearDownClass(self):

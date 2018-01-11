@@ -2,16 +2,13 @@
 # -*- coding: utf-8 -*-
 # @Author  : huxiansheng (you@example.org)
 
+import configparser
 import os
 import unittest
-import configparser
-from frame_base_class.driver_base import  Drivrser_base #浏览器驱动
-from frame_base_class.page_base import Logger # 日志
-from data.get_excel_data import Get_excel_data # excel参数
+
 from common_class.Assertion import Assertion
-from page_elements.skin01_login import skin01_user_login,taobao_login #页面元素
-
-
+from frame_base_class.page_base import Logger  # 日志
+from page_elements.Home_page.skin01_login import skin01_user_login, taobao_login  # 页面元素
 
 #实例化日志类
 logger = Logger(logger = "skin01_login").getlog()

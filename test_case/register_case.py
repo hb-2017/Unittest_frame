@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 # @Author  : huxiansheng (you@example.org)
 
-from frame_base_class.page_base import Basepage
-from frame_base_class.logger_base import Logger
-from frame_base_class.driver_base import Drivrser_base
-from page_elements.skin01_register import skin01_register
+import configparser
 import os
 import unittest
-import configparser
+
+from frame_base_class.driver_base import Drivrser_base
+from frame_base_class.logger_base import Logger
+from page_elements.Home_page.skin01_register import skin01_register
 
 logger = Logger(logger = 'register').getlog()
 

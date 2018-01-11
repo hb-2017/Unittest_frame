@@ -20,7 +20,8 @@ class Drivrser_base():
     def __init__(self,driver):
         self.driver = driver
 
-    def open_browser(self, driver):
+    def open_browser(self,driver):
+    # def open_browser(self):
         #实例化配置文件类
         config = configparser.ConfigParser()
         #获取配置文件路劲,并读取
