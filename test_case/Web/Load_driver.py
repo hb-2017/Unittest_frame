@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Author  : huxiansheng (you@example.org)
-
-
 import unittest
 from frame_base_class.driver_base import Driver_base
 

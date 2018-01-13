@@ -10,7 +10,7 @@ from common_class.Assertion import Assertion
 from frame_base_class.driver_base import Driver_base  # 浏览器驱动
 from frame_base_class.page_base import Logger  # 日志
 from page_elements.Home_page.login_page import skin01_user_login, taobao_login  # 页面元素
-from test_case.Load_driver.Load_driver import Load_drive
+from test_case.Web.Load_driver import Load_drive
 
 #实例化日志类
 logger = Logger(logger = "Test_login").getlog()

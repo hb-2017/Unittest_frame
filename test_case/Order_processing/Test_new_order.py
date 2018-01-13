@@ -9,7 +9,7 @@ from frame_base_class.driver_base import Driver_base  # 浏览器驱动
 from common_class.Root_path import xpath
 from frame_base_class.logger_base import Logger
 from page_elements.Batch_printing.skin01_new_order import skin01_new_order
-from test_case.Load_driver.Load_driver import Load_drive
+from test_case.Web.Load_driver import Load_drive
 
 logger = Logger(logger='new_order').getlog()
 
@@ -88,6 +88,7 @@ class new_order(Load_drive):
 
 
     # 新建订单-选收件人
+
 
 
 
