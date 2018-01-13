@@ -5,14 +5,17 @@
 import configparser
 import os
 import unittest
-
-from frame_base_class.driver_base import Drivrser_base
+from common_class.Root_path import xpath
+from frame_base_class.driver_base import Driver_base
 from frame_base_class.logger_base import Logger
-from page_elements.Home_page.skin01_register import skin01_register
+from page_elements.Home_page.register_page import skin01_register
 
 logger = Logger(logger = 'register').getlog()
 
 class register(unittest.TestCase):
+    # 获取项目绝对路劲并且组合需要的新路径
+    x = xpath()
+    dir = x.get_root_path()
 
     def setUp(self):
         # 测试固件的setUp()的代码，主要是测试的前提准备工作
@@ -38,7 +41,7 @@ class register(unittest.TestCase):
     #获取注册时需要的信息
     def get_register_data(self):
         config = configparser.ConfigParser()
-        config_xpath = os.path.dirname(os.path.abspath('.'))+'/config/common_data.ini'
+        config_xpath = self.dir+'/config/common_data.ini'
         config.read(config_xpath,encoding='utf-8-sig')
         Mobile = config.get('registerinfo','Mobile')
         password = config.get('registerinfo','password')
@@ -73,7 +76,7 @@ class register(unittest.TestCase):
 
 
     # 注册用例
-    def test_register(self):
+    def register(self):
         self.register = skin01_register(self.browser)
         tip_statu = self.Verifying_mobile()
         if tip_statu==True:
@@ -96,5 +99,6 @@ class register(unittest.TestCase):
             logger.info('test_register is fail, page_title is %s' % tip_statu)
             self.assertTrue(False, 'Verifying_mobile is fail, error is %s' % tip_statu)
 
-
-
+#
+# if __name__ == '__main__':
+#     unittest.main()

@@ -6,27 +6,32 @@ import  configparser
 import os
 from selenium import webdriver
 from frame_base_class.logger_base import Logger
+from common_class.Root_path import xpath
 
 #实例化Logger类
 logger = Logger(logger = "Drivrser_base").getlog()
 
-class Drivrser_base():
-    # 获取绝对路劲并且把绝对路劲的最后一层目录去除
-    dir = os.path.dirname(os.path.abspath('.'))
+
+class Driver_base():
+    # 获取项目绝对路劲并且组合需要的新路径
+    x = xpath()
+    dir = x.get_root_path()
     # 获取浏览器驱动的路径
     Chrome_driver_path = dir + '/tools/chromedriver.exe'
     Ie_driver_path = dir + '/tools/IEDriverServer.exe'
 
-    def __init__(self,driver):
-        self.driver = driver
+    # def __init__(self,driver):
+    #     self.driver = driver
 
-    def open_browser(self,driver):
+    def open_browser(self):
     # def open_browser(self):
         #实例化配置文件类
         config = configparser.ConfigParser()
         #获取配置文件路劲,并读取
-        driver_config_xpath = os.path.dirname(os.path.abspath('.'))+'/config/driver_config.ini'
-        url_manage_xpath = os.path.dirname(os.path.abspath('.'))+'/config/url_manage.ini'
+        # driver_config_xpath = os.path.dirname(os.path.abspath('.'))+'/config/driver_config.ini'
+        # url_manage_xpath = os.path.dirname(os.path.abspath('.'))+'/config/url_manage.ini'
+        driver_config_xpath = self.dir + '/config/driver_config.ini'
+        url_manage_xpath = self.dir + '/config/url_manage.ini'
         config.read(driver_config_xpath)
         #读取config的驱动,url信息
         browser = config.get('browserType','browserName')

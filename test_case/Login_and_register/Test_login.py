@@ -5,31 +5,37 @@
 import configparser
 import os
 import unittest
-
+from common_class.Root_path import xpath
 from common_class.Assertion import Assertion
+from frame_base_class.driver_base import Driver_base  # 浏览器驱动
 from frame_base_class.page_base import Logger  # 日志
-from page_elements.Home_page.skin01_login import skin01_user_login, taobao_login  # 页面元素
+from page_elements.Home_page.login_page import skin01_user_login, taobao_login  # 页面元素
+from test_case.Load_driver.Load_driver import Load_drive
 
 #实例化日志类
-logger = Logger(logger = "skin01_login").getlog()
+logger = Logger(logger = "Test_login").getlog()
 Assertion_ = Assertion()
 
-class Skin01_login(unittest.TestCase):
+class Test_login(Load_drive):
+    # 获取项目绝对路劲并且组合需要的新路径
+    x = xpath()
+    dir = x.get_root_path()
 
     # def setUp(self):
     #     # 测试固件的setUp()的代码，主要是测试的前提准备工作
-    #     Drivrser = Drivrser_base(self)
-    #     self.browser = Drivrser.open_browser(self)
+    #     self.Drivrser = Drivrser_base(self)
+    #
+    #
     #
     # def tearDown(self):
-    #
     #     # 测试固件的tearDown()的代码，这里基本上都是关闭浏览器
     #     self.browser.quit()
 
     # 从配置文件读取登录的账号密码
     def get_user_info(self):
+
         config = configparser.ConfigParser()
-        userinfo_config_xpath = os.path.dirname(os.path.abspath('.')) + '/config/common_data.ini'
+        userinfo_config_xpath =  self.dir+ '/config/common_data.ini'
         config.read(userinfo_config_xpath,encoding="utf-8-sig")
         username = config.get('userinfo', 'username')
         password = config.get('userinfo', 'password')
@@ -47,29 +53,28 @@ class Skin01_login(unittest.TestCase):
             logger.error(' 预期页面标题：%s 与实际标题%s不相符' % (title, page_title))
             return False
 
-
-
     #账号密码登录
-    def user_login(self,browser):
+    def test_user_login(self):
+
         print('易打单账号登录开始')
         username,password = self.get_user_info()
         #开始输入账号密码
-        user_login = skin01_user_login(browser)
+        user_login = skin01_user_login(self.browser)    #实例化页面类的时候将浏览器驱动带到页面元素类，用于操作页面
         user_login.input_userinfo(username,password)
-        browser.find_element_by_id('submit').click()
+        self.browser.find_element_by_id('submit').click()
         user_login.sleep(2)
         try:
-            if self.page_title('易打单 | 批量打印',browser):
+            if self.page_title('易打单 | 批量打印',self.browser):
                 self.assertTrue(True)
-            elif self.page_title('易打单 登录',browser):
+            elif self.page_title('易打单 登录',self.browser):
                 error_tip = user_login.get_error_tips()
                 if error_tip == '请输入图片验证码':
                     # 开始输入验证码
                     user_login.input_code()
                     logger.info('error tips input code')
-                    browser.find_element_by_id('submit').click()
+                    self.browser.find_element_by_id('submit').click()
                     user_login.sleep(2)
-                    if self.page_title('易打单 | 批量打印',browser):
+                    if self.page_title('易打单 | 批量打印',self.browser):
                         self.assertTrue(True)
                     else:
                         self.assertTrue(False)
@@ -85,7 +90,8 @@ class Skin01_login(unittest.TestCase):
     # 读取淘宝登录的账号密码
     def get_taobao_info(self):
         config = configparser.ConfigParser()
-        taobao_xpath = os.path.dirname(os.path.abspath('.'))+'/config/common_data.ini'
+        taobao_xpath = self.dir+'/config/common_data.ini'
+        print(taobao_xpath)
         config.read(taobao_xpath,"utf-8-sig")
         username = config.get('taobaoinfo','username')
         password = config.get('taobaoinfo', 'password')
@@ -113,10 +119,9 @@ class Skin01_login(unittest.TestCase):
 
 
 
-
-
-
-
+# if __name__ == '__main__':
+#     print('1')
+#     unittest.main()
 
 
 

@@ -5,9 +5,13 @@
 import logging
 import os.path
 import time
-
+from common_class.Root_path import xpath
 
 class Logger(object):
+    # 获取项目绝对路劲并且组合需要的新路径
+    x = xpath()
+    dir = x.get_root_path()
+
 
     def __init__(self, logger):
         '''''
@@ -20,7 +24,8 @@ class Logger(object):
         # 创建一个handler，用于写入日志文件
         rq = time.strftime('%Y-%m-%d',time.localtime(time.time()))
         # 项目根目录下/Logs 保存日志
-        log_path = os.path.dirname(os.path.abspath('.'))+'/logs/'
+        # log_path = os.path.dirname(os.path.abspath('.'))+'/logs/'
+        log_path = self.dir + r'/logs/'
         # 日志文件名称
         log_name = log_path + rq + '.log'
 

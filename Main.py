@@ -1,8 +1,8 @@
 import unittest
-from frame_base_class.driver_base import  Drivrser_base #浏览器驱动
-from test_case.login_case import Skin01_login
-from test_case.new_order_case import new_order
 
+from frame_base_class.driver_base import Drivrser_base  # 浏览器驱动
+from test_case.Login_and_register.Test_login import Skin01_login
+from test_case.Order_processing.Test_new_order import new_order
 
 
 class MyTestCase(unittest.TestCase):
@@ -25,11 +25,13 @@ class MyTestCase(unittest.TestCase):
         browser = self.browser
         self.login.user_login(browser)
 
+
     def test_new_order(self):
         browser = self.browser
-        self.new_or.new_order_statr(browser)
+        self.new_or.new_order_manual_input(browser)
 
-
+if __name__ == '__main__':
+    unittest.main()
 
 
 
