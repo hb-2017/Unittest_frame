@@ -32,15 +32,26 @@ class Test_login(Load_drive):
     #     self.browser.quit()
 
     # 从配置文件读取登录的账号密码
-    def get_user_info(self):
-
+    def get_user_info(self,config_title,config_value):
+        values = []
         config = configparser.ConfigParser()
-        userinfo_config_xpath =  self.dir+ '/config/common_data.ini'
-        config.read(userinfo_config_xpath,encoding="utf-8-sig")
-        username = config.get('userinfo', 'username')
-        password = config.get('userinfo', 'password')
-        logger.info('get userinfo from config ')
-        return username,password
+        userinfo_config_xpath = self.dir + '/config/common_data.ini'
+        config.read(userinfo_config_xpath, encoding="utf-8-sig")
+        if len(config_title)==1:
+            value = []
+            for item in config_value:
+                item = config.get(config_title, item)
+                values.append(item)
+            logger.info('get info %s from config '%value)
+        elif len(config_title)>1:
+            for title in config_title:
+                value = []
+                for item in config_value:
+                    item = config.get(title,item)
+                    value.append(item)
+                    values.append(value)
+                logger.info('get info %s from config '%values)
+        return values
 
     # 获取页面标题
     def page_title(self,title,browser=None):
@@ -57,7 +68,7 @@ class Test_login(Load_drive):
     def test_user_login(self):
 
         print('易打单账号登录开始')
-        username,password = self.get_user_info()
+        username,password = self.get_user_info(config_title='userinfo',config_value=['username','password'])
         #开始输入账号密码
         user_login = skin01_user_login(self.browser)    #实例化页面类的时候将浏览器驱动带到页面元素类，用于操作页面
         user_login.input_userinfo(username,password)
@@ -116,6 +127,16 @@ class Test_login(Load_drive):
                 self.assertTrue(False)
         else:
             self.assertTrue(False)
+
+
+
+    def test_All_node_login(self):
+        pass
+
+
+
+
+
 
 
 
