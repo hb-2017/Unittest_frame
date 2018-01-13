@@ -40,7 +40,7 @@ class Test_login(Load_drive):
         if len(config_title)==1:
             value = []
             for item in config_value:
-                item = config.get(config_title, item)
+                item = config.get(config_title[0], item)
                 values.append(item)
             logger.info('get info %s from config '%value)
         elif len(config_title)>1:
@@ -66,9 +66,10 @@ class Test_login(Load_drive):
 
     #账号密码登录
     def test_user_login(self):
-
         print('易打单账号登录开始')
-        username,password = self.get_user_info(config_title='userinfo',config_value=['username','password'])
+        values = self.get_user_info(config_title=['userinfo'],config_value=['username','password'])
+        username = values[0]
+        password = values[1]
         #开始输入账号密码
         user_login = skin01_user_login(self.browser)    #实例化页面类的时候将浏览器驱动带到页面元素类，用于操作页面
         user_login.input_userinfo(username,password)
@@ -130,8 +131,8 @@ class Test_login(Load_drive):
 
 
 
-    def test_All_node_login(self):
-        pass
+    # def test_All_node_login(self):
+    #     pass
 
 
 
