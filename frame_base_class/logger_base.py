@@ -5,11 +5,11 @@
 import logging
 import os.path
 import time
-from common_class.Root_path import xpath
+from common_class.Root_set_up import root_xpath
 
 class Logger(object):
     # 获取项目绝对路劲并且组合需要的新路径
-    x = xpath()
+    x = root_xpath()
     dir = x.get_root_path()
 
 

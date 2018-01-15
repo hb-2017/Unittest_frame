@@ -5,7 +5,7 @@
 import configparser
 import os
 import unittest
-from common_class.Root_path import xpath
+from common_class.Root_set_up import root_xpath
 from common_class.Assertion import Assertion
 from frame_base_class.driver_base import Driver_base  # 浏览器驱动
 from frame_base_class.page_base import Logger  # 日志
@@ -19,7 +19,7 @@ Assertion_ = Assertion()
 
 class Test_login(Load_drive):
     # 获取项目绝对路劲并且组合需要的新路径
-    x = xpath()
+    x = root_xpath()
     dir = x.get_root_path()
 
     # def setUp(self):
@@ -138,13 +138,13 @@ class Test_login(Load_drive):
         config_title = ['code_01','code_02','code_03','code_04','code_05','code_06','code_07','code_08','code_09','code_10','code_11','code_12',]
         values = self.get_user_info(config_title=config_title, config_value=['username', 'password'])
         user_login = skin01_user_login(self.browser)  # 实例化页面类的时候将浏览器驱动带到页面元素类，用于操作页面
-        for value in values:
+        for value in values[1:3]:
             username = value[0]
             password = value[1]
             main_pg.sleep(1)
             user_login.input_userinfo(username, password)
             self.browser.find_element_by_id('submit').click()
-            user_login.sleep(2)
+            user_login.browser_wait(5)
             try:
                 # 新皮肤界面
                 if self.page_title('易打单 | 批量打印', self.browser):
@@ -169,31 +169,35 @@ class Test_login(Load_drive):
                             self.assertTrue(False)
                     else:
                         logger.error('%s login_test is fail ,%s' % (username, error_tip))
+                        user_login.get_windows_img()
                         self.assertTrue(False)
                 else:
                     logger.error('%s login_test is fail' % username)
+                    user_login.get_windows_img()
                     self.assertTrue(True)
             except BaseException as e:
                 logger.error('登录错误：%s' % e)
                 self.assertTrue(False)
 
 
-
+    #退出skin01
     def out_system_skin01(self,username):
         main_pg = main_page(self.browser)
         if self.page_title('易打单 | 批量打印', self.browser):
             main_pg.out_system()
-            main_pg.sleep(1)
+            main_pg.sleep(2)
             if self.page_title('易打单 登录', self.browser):
                 self.assertTrue(True)
                 logger.info('%s login and out system is pass' % username)
             else:
                 logger.info('%s  out system is fail' % username)
+                main_pg.get_windows_img()
         else:
             logger.info('%s login  is fail' % username)
+            main_pg.get_windows_img()
             self.assertTrue(False)
 
-
+    #退出旧皮肤
     def out_system_order(self,username):
         main_pg = main_page(self.browser)
         if self.page_title('易打单 订单管理', self.browser):
@@ -204,8 +208,10 @@ class Test_login(Load_drive):
                 logger.info('%s login and out system is pass' % username)
             else:
                 logger.info('%s  out system is fail' % username)
+                main_pg.get_windows_img()
         else:
             logger.info('%s login  is fail' % username)
+            main_pg.get_windows_img()
             self.assertTrue(False)
 
 

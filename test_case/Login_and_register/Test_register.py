@@ -5,7 +5,7 @@
 import configparser
 import os
 import unittest
-from common_class.Root_path import xpath
+from common_class.Root_set_up import root_xpath
 from frame_base_class.driver_base import Driver_base
 from frame_base_class.logger_base import Logger
 from page_elements.Home_page.register_page import skin01_register
@@ -14,7 +14,7 @@ logger = Logger(logger = 'register').getlog()
 
 class register(unittest.TestCase):
     # 获取项目绝对路劲并且组合需要的新路径
-    x = xpath()
+    x = root_xpath()
     dir = x.get_root_path()
 
     def setUp(self):

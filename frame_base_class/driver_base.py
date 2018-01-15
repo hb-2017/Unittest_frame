@@ -6,7 +6,7 @@ import  configparser
 import os
 from selenium import webdriver
 from frame_base_class.logger_base import Logger
-from common_class.Root_path import xpath
+from common_class.Root_set_up import root_xpath
 
 #实例化Logger类
 logger = Logger(logger = "Drivrser_base").getlog()
@@ -14,7 +14,7 @@ logger = Logger(logger = "Drivrser_base").getlog()
 
 class Driver_base():
     # 获取项目绝对路劲并且组合需要的新路径
-    x = xpath()
+    x = root_xpath()
     dir = x.get_root_path()
     # 获取浏览器驱动的路径
     Chrome_driver_path = dir + '/tools/chromedriver.exe'

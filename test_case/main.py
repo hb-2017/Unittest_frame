@@ -4,9 +4,9 @@
 
 import os
 import unittest
-from common_class.Root_path import xpath
+from common_class.Root_set_up import root_xpath
 # 获取项目绝对路劲并且组合需要的新路径
-x = xpath()
+x = root_xpath()
 dir = x.get_root_path()
 
 case_path = dir + '/test_case'
