@@ -6,6 +6,7 @@ import time
 from selenium.common.exceptions import NoSuchElementException
 import os
 from frame_base_class.logger_base import Logger
+from selenium.webdriver.common.action_chains import *       #用于鼠标事件
 
 #实例化日志类
 logger = Logger(logger = 'Basepage').getlog()
@@ -31,6 +32,10 @@ class Basepage():
     def browser_back(self):
         self.browser.back()
         logger.info('Click back on current page')
+
+    def refresh(self):
+        self.browser.refresh()
+        logger.info('Browser refresh on current page')
 
     #隐式等待
     def browser_wait(self,seconds):
@@ -82,7 +87,7 @@ class Basepage():
         if selector_by == "i" or selector_by == 'id':
             try:
                 element = self.browser.find_element_by_id(selector_value)
-                logger.info("Had find the element \' %s \' successful "
+                logger.info("Had find the element ' %s ' successful "
                             "by %s via value: %s " % (element.text, selector_by, selector_value))
             except NoSuchElementException as e:
                 logger.error("NoSuchElementException: %s" % e)
@@ -198,13 +203,14 @@ class Basepage():
             return element_dispaly
 
 
+    #休眠
     @staticmethod
     def sleep(seconds):
         time.sleep(seconds)
         logger.info("Sleep for %d seconds" % seconds)
 
 
-
+    #获取元素文本
     def get_elemeent_text(self,selector):
         el = self.find_element(selector)
         elemeent_text = el.text
@@ -212,3 +218,13 @@ class Basepage():
         return elemeent_text
 
 
+    #鼠标悬浮
+    def Mouse_suspension(self,selector):
+        el = self.find_element(selector)
+        # 鼠标移到悬停元素上
+        try:
+            chain = ActionChains(self.browser)
+            chain.move_to_element(el).perform()
+            logger.info('mouse suspension on the %s'%el.text)
+        except BaseException as e:
+            logger.error('Mouse suspension is error :%s'%e)

@@ -11,6 +11,7 @@ from frame_base_class.driver_base import Driver_base  # 浏览器驱动
 from frame_base_class.page_base import Logger  # 日志
 from page_elements.Home_page.login_page import skin01_user_login, taobao_login  # 页面元素
 from test_case.Web.Load_driver import Load_drive
+from page_elements.Batch_printing.Main_page import main_page
 
 #实例化日志类
 logger = Logger(logger = "Test_login").getlog()
@@ -49,8 +50,8 @@ class Test_login(Load_drive):
                 for item in config_value:
                     item = config.get(title,item)
                     value.append(item)
-                    values.append(value)
-                logger.info('get info %s from config '%values)
+                values.append(value)
+            logger.info('get info %s from config '%values)
         return values
 
     # 获取页面标题
@@ -58,15 +59,16 @@ class Test_login(Load_drive):
         user_login = skin01_user_login(browser)
         page_title = user_login.get_page_title()
         if page_title==title:
-            logger.info(' 预期页面标题：%s 与实际标题%s相符' %(title,page_title ))
+            logger.info(' 预期页面标题：[%s]与实际标题:[%s]相符' %(title,page_title ))
             return True
         else:
-            logger.error(' 预期页面标题：%s 与实际标题%s不相符' % (title, page_title))
+            logger.error(' 预期页面标题：[%s]与实际标题:[%s]不相符' % (title, page_title))
             return False
 
     #账号密码登录
     def test_user_login(self):
         print('易打单账号登录开始')
+
         values = self.get_user_info(config_title=['userinfo'],config_value=['username','password'])
         username = values[0]
         password = values[1]
@@ -130,13 +132,81 @@ class Test_login(Load_drive):
             self.assertTrue(False)
 
 
+    # 全节点登录测试
+    def test_All_node_login(self):
+        main_pg = main_page(self.browser)
+        config_title = ['code_01','code_02','code_03','code_04','code_05','code_06','code_07','code_08','code_09','code_10','code_11','code_12',]
+        values = self.get_user_info(config_title=config_title, config_value=['username', 'password'])
+        user_login = skin01_user_login(self.browser)  # 实例化页面类的时候将浏览器驱动带到页面元素类，用于操作页面
+        for value in values:
+            username = value[0]
+            password = value[1]
+            main_pg.sleep(1)
+            user_login.input_userinfo(username, password)
+            self.browser.find_element_by_id('submit').click()
+            user_login.sleep(2)
+            try:
+                # 新皮肤界面
+                if self.page_title('易打单 | 批量打印', self.browser):
+                    self.assertTrue(True)
+                    self.out_system_skin01(username) # 退出系统
+                # 旧皮肤界面
+                elif self.page_title('易打单 订单管理', self.browser):
+                    self.out_system_order(username)          # 退出系统
+                    self.assertTrue(True)
+                # 登录界面
+                elif self.page_title('易打单 登录', self.browser):
+                    error_tip = user_login.get_error_tips()
+                    if error_tip == '请输入图片验证码':
+                        # 开始输入验证码
+                        user_login.input_code()
+                        logger.info('error tips input code')
+                        self.browser.find_element_by_id('submit').click()
+                        user_login.sleep(2)
+                        if self.page_title('易打单|批量打印',self.browser):
+                            self.out_system_skin01(username)  # 退出系统
+                        else:
+                            self.assertTrue(False)
+                    else:
+                        logger.error('%s login_test is fail ,%s' % (username, error_tip))
+                        self.assertTrue(False)
+                else:
+                    logger.error('%s login_test is fail' % username)
+                    self.assertTrue(True)
+            except BaseException as e:
+                logger.error('登录错误：%s' % e)
+                self.assertTrue(False)
 
-    # def test_All_node_login(self):
-    #     pass
 
 
+    def out_system_skin01(self,username):
+        main_pg = main_page(self.browser)
+        if self.page_title('易打单 | 批量打印', self.browser):
+            main_pg.out_system()
+            main_pg.sleep(1)
+            if self.page_title('易打单 登录', self.browser):
+                self.assertTrue(True)
+                logger.info('%s login and out system is pass' % username)
+            else:
+                logger.info('%s  out system is fail' % username)
+        else:
+            logger.info('%s login  is fail' % username)
+            self.assertTrue(False)
 
 
+    def out_system_order(self,username):
+        main_pg = main_page(self.browser)
+        if self.page_title('易打单 订单管理', self.browser):
+            self.browser.find_element_by_xpath('//*[@id="g_header"]/div[1]/div/a[2]/span/span').click()
+            main_pg.sleep(1)
+            if self.page_title('易打单 登录', self.browser):
+                self.assertTrue(True)
+                logger.info('%s login and out system is pass' % username)
+            else:
+                logger.info('%s  out system is fail' % username)
+        else:
+            logger.info('%s login  is fail' % username)
+            self.assertTrue(False)
 
 
 

@@ -3,6 +3,10 @@
 # @Author  : huxiansheng (you@example.org)
 import unittest
 from frame_base_class.driver_base import Driver_base
+from frame_base_class.logger_base import Logger
+import time
+
+logger = Logger(logger='quit_browser').getlog()
 
 class Load_drive(unittest.TestCase):
 
@@ -18,3 +22,7 @@ class Load_drive(unittest.TestCase):
         # self.browser.quit()
         pass
 
+    def test_quit_browser(self):
+        time.sleep(1)
+        self.browser.quit()
+        logger.info('Browser is quit !')
