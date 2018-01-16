@@ -25,16 +25,18 @@ class report():
         report_path = dir + '/test_report'
         return report_path
 
-    def report_exist_statu(self):
+    def report_exist_statu(self,report_title):
         report_path = self.get_report_path()
         # 获取系统当前时间
         month = time.strftime("%m", time.localtime(time.time()))
         day = time.strftime("%d", time.localtime(time.time()))
         report_name = time.strftime("%H_%M_%S", time.localtime(time.time()))
         report_path = report_path + r'/' + month + '月' + r'/' + day+'日'
-        # report_statu = os.path.exists(report_path)
+        report_statu = os.path.exists(report_path)
         # os.makedirs(report_path)
-        report_path = report_path + '/' +report_name + '-HTMLtemplate.html'
+        if report_statu==False:
+            os.makedirs(report_path)
+        report_path = report_path + '/' +report_name + '-' +report_title+'.html'
         fp = open(report_path, "wb")
         self.logger.info('Report writing success !')
         return fp

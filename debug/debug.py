@@ -8,16 +8,17 @@ from selenium import webdriver
 from selenium.webdriver.common.action_chains import *       #用于鼠标事件
 import os
 
-# browser = webdriver.Chrome()
-# browser.maximize_window()
-# browser.get('https://www.1dadan.com')
-# browser.find_element_by_id('userName').send_keys('test09')
-# browser.find_element_by_name('password').send_keys('1qaz2wsx')
-# browser.find_element_by_id('submit').click()
-# el = browser.find_element_by_id('topNavBtn')
-# chain=ActionChains(browser)
-# chain.move_to_element(el).perform()
-# browser.find_element_by_id('logoutBtn').click()
+browser = webdriver.Chrome()
+browser.maximize_window()
+browser.get('https://www.1dadan.com')
+browser.find_element_by_id('userName').send_keys('test09')
+browser.find_element_by_name('password').send_keys('1qaz2wsx')
+browser.find_element_by_id('submit').click()
+browser.find_element_by_id('createOrderBtn').click()
+time.sleep(1)
+browser.find_element_by_name('receiverAddressBtn').click()
+browser.find_element_by_id('searchkey').send_keys('111')
+browser.find_element_by_id('searchRecipient').click()
 
 
 # class xpath():

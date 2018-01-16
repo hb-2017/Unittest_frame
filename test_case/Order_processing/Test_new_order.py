@@ -18,17 +18,6 @@ class new_order(Load_drive):
     x = root_xpath()
     dir = x.get_root_path()
 
-    # def setUp(self):
-    #     # 测试固件的setUp()的代码，主要是测试的前提准备工作
-    #     Drivrser = Drivrser_base(self)
-    #     self.browser = Drivrser.open_browser(self)
-    #
-    #
-    # def tearDown(self):
-    #
-    #     # 测试固件的tearDown()的代码，这里基本上都是关闭浏览器
-    #     self.browser.quit()
-
     def get_order_info(self):
         order_info = []
         config = configparser.ConfigParser()
@@ -70,7 +59,7 @@ class new_order(Load_drive):
         if len(order_info)!=0:
             new_order.new_order(order_info)
             new_order.sleep(1)
-            tip_statu = new_order.new_order_tip()
+            tip_statu = new_order.new_order_tip()  #新建订单提示
             if tip_statu==True:
                 logger.info('new order case %s is pass'%order_info[0])
                 self.assertTrue(True)
@@ -87,8 +76,44 @@ class new_order(Load_drive):
             self.assertTrue(False)
 
 
-    # 新建订单-选收件人
 
+
+    # 新建订单-选收件人
+    def test_new_order_choose(self):
+        new_order = skin01_new_order(self.browser)
+        order_info = self.get_order_info()
+
+        if len(order_info) != 0:
+            new_order.click_choose_receiver()
+            table = new_order.input_oquery_info('收件人1')
+            if len(table)<1:
+                new_order.colse_new_order()
+                logger.info('choose_receiver is null')
+            else:
+                new_order.click_table_row(table)
+                if len(order_info)>10:
+                    new_order.input_order_info(order_info)
+                    #开始判断订单新建是否成功
+                    tip_statu = new_order.new_order_tip()  # 新建订单提示
+                    if tip_statu == True:
+                        logger.info('new order case %s is pass' % order_info[0])
+                        self.assertTrue(True)
+                    elif tip_statu == None:
+                        tip = new_order.new_error_tip()
+                        if tip != False:
+                            logger.error('new order case %s is fail,errpr tip is %s' % (order_info[0], tip))
+                            self.assertTrue(False)
+                        else:
+                            new_order.get_windows_img()
+                    else:
+                        logger.info('new order case %s is fail' % order_info[0])
+                        self.assertTrue(False)
+                else:
+                    logger.info('Order info length is %s,'%len(order_info) )
+
+        else:
+            logger.error('Order info length is "0" ,Unable to build a new order by choose')
+            self.assertTrue(False)
 
 
 

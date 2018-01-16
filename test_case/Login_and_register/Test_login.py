@@ -65,6 +65,7 @@ class Test_login(Load_drive):
             logger.error(' 预期页面标题：[%s]与实际标题:[%s]不相符' % (title, page_title))
             return False
 
+
     #账号密码登录
     def test_user_login(self):
         print('易打单账号登录开始')
@@ -79,6 +80,7 @@ class Test_login(Load_drive):
         user_login.sleep(2)
         try:
             if self.page_title('易打单 | 批量打印',self.browser):
+                logger.info('%s login skin01 system success'%username)
                 self.assertTrue(True)
             elif self.page_title('易打单 登录',self.browser):
                 error_tip = user_login.get_error_tips()
@@ -138,9 +140,10 @@ class Test_login(Load_drive):
         config_title = ['code_01','code_02','code_03','code_04','code_05','code_06','code_07','code_08','code_09','code_10','code_11','code_12',]
         values = self.get_user_info(config_title=config_title, config_value=['username', 'password'])
         user_login = skin01_user_login(self.browser)  # 实例化页面类的时候将浏览器驱动带到页面元素类，用于操作页面
-        for value in values[1:3]:
+        for value in values:
             username = value[0]
             password = value[1]
+            logger.info('The number of accounts to be used is %s '%username)
             main_pg.sleep(1)
             user_login.input_userinfo(username, password)
             self.browser.find_element_by_id('submit').click()
@@ -148,6 +151,7 @@ class Test_login(Load_drive):
             try:
                 # 新皮肤界面
                 if self.page_title('易打单 | 批量打印', self.browser):
+                    logger.info('%s login skin01 system success' % username)
                     self.assertTrue(True)
                     self.out_system_skin01(username) # 退出系统
                 # 旧皮肤界面
@@ -193,7 +197,7 @@ class Test_login(Load_drive):
                 logger.info('%s  out system is fail' % username)
                 main_pg.get_windows_img()
         else:
-            logger.info('%s login  is fail' % username)
+            logger.info('%s login statu is no skin01 , Can not use this method to exit' % username)
             main_pg.get_windows_img()
             self.assertTrue(False)
 
@@ -210,7 +214,7 @@ class Test_login(Load_drive):
                 logger.info('%s  out system is fail' % username)
                 main_pg.get_windows_img()
         else:
-            logger.info('%s login  is fail' % username)
+            logger.info('%s login statu is no order_page , Can not use this method to exit' % username)
             main_pg.get_windows_img()
             self.assertTrue(False)
 

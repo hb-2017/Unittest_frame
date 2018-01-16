@@ -37,6 +37,8 @@ class skin01_new_order(Basepage):
     Save_tip = 'x=>html/body/div[9]' #保存提示
     Save_tip_button = 'x=>/html/body/div[9]/div[7]/div/button' #确认
     error_tip = 'id=>tip' # 新建订单的错误提示
+
+    close = 'x=>//*[@id="createOrderTPL"]/button/i'
 # ------------------------------------------------------------------------------- #
 
 
@@ -98,40 +100,60 @@ class skin01_new_order(Basepage):
 
 
 
+# -----------------------------关闭新建框--------------------------------------------- #
+    #
+    def colse_new_order(self):
+        self.click(self.close)
+# ------------------------------------------------------------------------------- #
+
+
 # -----------------------------新建订单-选收件人--------------------------------------------- #
     '''
     参数：
-    query_info  用于搜索收件人的信息
+    query_info  搜索框的收件人的信息
     order_info  新建订单的信息
     返回值：
     None  列表函数小于1，order_info
     '''
     # 新建订单-选收件人
-    def copy_order(self,query_info = None,order_info=None):
+    def click_choose_receiver(self,query_info = None):
         self.click(self.createOrderBtn)
-        self.sleep(2)
-
+        self.sleep(1)
         self.click(self.receiverAddressBtn)
-        if query_info!=None:
-            self.input(self.searchkey, query_info)
-            self.click(self.searchRecipient)
-        table = self.find_element(self.receiverAddressBtn)
-        #列表行数需要大于0才能点击
-        if len(table)>0:
-            table[1:].click()
-        else:
-            return None
-        self.click(self.confirmReceiverAddressBtn)
+        self.sleep(1)
 
-        if order_info!=None:
-            if len(order_info) > 0:
-                self.input(self.sellerMessage, order_info[7])
-                self.input(self.goodsName, order_info[9])
-            else:
-                return None
-        else:
-            self.input(self.sellerMessage,'新建订单备注信息')
-            self.input(self.goodsName, '新建订单商品标题')
+    #新建订单-输入选收件人的信息
+    def input_oquery_info(self, query_info=None):
+        # if query_info!=None:
+        self.input(self.searchkey, query_info)
+        self.click(self.searchRecipient)
+        table = self.find_element(self.recipientTbody)
+        return table
+
+    #列表行数需要大于0才能点击
+    def click_table_row(self,table):
+        # if len(table)>0:
+        table[1:].click()
+        self.click(self.confirmReceiverAddressBtn)
+        self.sleep(1)
+        # else:
+        #     return None
+
+
+    #新建订单-输入商品标题，备注信息
+    def input_order_info(self,order_info=None):
+        # if order_info!=None:
+        #     if len(order_info) > 0:
+        self.input(self.sellerMessage, order_info[7])
+        self.input(self.goodsName, order_info[9])
+            # else:
+            #     return None
+        # else:
+        #     self.input(self.sellerMessage,'新建订单备注信息')
+        #     self.input(self.goodsName, '新建订单商品标题')
         self.click(self.confirmCreateOrder)
+
+
+
 # ------------------------------------------------------------------------------- #
 
