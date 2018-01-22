@@ -54,15 +54,16 @@ class Test_login(Load_drive):
             logger.info('get info %s from config '%values)
         return values
 
+
     # 获取页面标题
     def page_title(self,title,browser=None):
         user_login = skin01_user_login(browser)
         page_title = user_login.get_page_title()
         if page_title==title:
-            logger.info(' 预期页面标题：[%s]与实际标题:[%s]相符' %(title,page_title ))
+            # logger.info(' 预期页面标题：[%s]与实际标题:[%s]相符' %(title,page_title ))
             return True
         else:
-            logger.error(' 预期页面标题：[%s]与实际标题:[%s]不相符' % (title, page_title))
+            # logger.error(' 预期页面标题：[%s]与实际标题:[%s]不相符' % (title, page_title))
             return False
 
 
@@ -156,6 +157,7 @@ class Test_login(Load_drive):
                     self.out_system_skin01(username) # 退出系统
                 # 旧皮肤界面
                 elif self.page_title('易打单 订单管理', self.browser):
+                    logger.info('%s login old system success' % username)
                     self.out_system_order(username)          # 退出系统
                     self.assertTrue(True)
                 # 登录界面
@@ -178,7 +180,7 @@ class Test_login(Load_drive):
                 else:
                     logger.error('%s login_test is fail' % username)
                     user_login.get_windows_img()
-                    self.assertTrue(True)
+                    self.assertTrue(False)
             except BaseException as e:
                 logger.error('登录错误：%s' % e)
                 self.assertTrue(False)

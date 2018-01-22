@@ -31,7 +31,9 @@ class skin01_new_order(Basepage):
     searchkey = 'id=>searchkey' #选收件人的填写框
     searchRecipient = 'id=>searchRecipient'#选收件人的查询按妞
     recipientTbody = 'c=>recipientTbody' #收件人列表框
-    confirmReceiverAddressBtn = '//*[@id="receiverAddressDiv"]/div[2]/a[1]' # 选择按妞
+    receiverinfo = 'x=>//*[@id="receiverAddressDiv"]/div[1]/div/table/tbody/tr[1]'  #收件人的信息
+    receiver_checkbox = 'class=>ckInput'
+    confirmReceiverAddressBtn = 'x=>//*[@id="receiverAddressDiv"]/div[2]/a[1]' # 选择按妞
 
     confirmCreateOrder = 'x=>//*[@id="createOrderTPL"]/form/div[2]/a[1]' #保存
     Save_tip = 'x=>html/body/div[9]' #保存提示
@@ -127,14 +129,20 @@ class skin01_new_order(Basepage):
         # if query_info!=None:
         self.input(self.searchkey, query_info)
         self.click(self.searchRecipient)
-        table = self.find_element(self.recipientTbody)
-        return table
+
+
+    def receiverinfo_exits(self):
+        receiverinfo_exits = self.element_is_dispalynd(self.receiverinfo)
+        return receiverinfo_exits
+
+
+
 
     #列表行数需要大于0才能点击
-    def click_table_row(self,table):
+    def click_table_row(self,receiverinfo):
         # if len(table)>0:
-        table[1:].click()
-        self.click(self.confirmReceiverAddressBtn)
+        receiverinfo.click()
+        self.click(self.receiver_checkbox)
         self.sleep(1)
         # else:
         #     return None
@@ -144,8 +152,8 @@ class skin01_new_order(Basepage):
     def input_order_info(self,order_info=None):
         # if order_info!=None:
         #     if len(order_info) > 0:
-        self.input(self.sellerMessage, order_info[7])
         self.input(self.goodsName, order_info[9])
+        self.input(self.sellerMessage, order_info[7])
             # else:
             #     return None
         # else:

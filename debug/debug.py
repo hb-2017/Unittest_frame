@@ -19,6 +19,8 @@ time.sleep(1)
 browser.find_element_by_name('receiverAddressBtn').click()
 browser.find_element_by_id('searchkey').send_keys('111')
 browser.find_element_by_id('searchRecipient').click()
+browser.find_element_by_xpath('//*[@id="receiverAddressDiv"]/div[1]/div/table/tbody/tr[1]/td[1]/input').click()
+browser.find_element_by_xpath('//*[@id="receiverAddressDiv"]/div[2]/a[1]').click()
 
 
 # class xpath():
